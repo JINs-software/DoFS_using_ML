@@ -8,27 +8,49 @@ change the program semantics. We introduce an efficient and
 effective approach for detecting false sharing based on machine
 learning. 
 
-## Mini Programs for learning
+## Mini-programs for Training 
+example: Code for parallel computation of dot-product 
 <pre>
 <code>
 int psum[MAXTHREADS]; // shared by threads
 int v1[N], v2[N];
-void *pdot_1(...) // Method 1: Good
+
+// Method 1: Good
+void *pdot_1(...) 
 { ...
  int mysum = 0;
  for (i = start; i < end; i++)
  mysum += v1[i] * v2[i];
  psum[myid] = mysum;
 }
-void *pdot_2(...) // Method 2: Bad -
-{ ... // False sharing
+// Method 2: Bad False sharing
+void *pdot_2(...) 
+{ ... 
  for (i = start; i < end; i++)
 psum[myid] += v1[i] * v2[i];
 }
-void *pdot_3(...) // Method 3: Bad
-{ ... // Memory access
+// Method 3: Bad Memory access
+void *pdot_3(...) 
+{ ... 
  // same as pdot_1() except non-sequential
  // vector element access (e.g, strided)
 }
 </code>
 </pre>
+
+## Identification of Performance Events
+Using perf version 5.10.9
+
+## TRAINING A MACHINE CLASSIFIER
+<pre>
+<code>
+// 의사결정트리
+clf = tree.DecisionTreeClassifier()
+clf = clf.fit(data, target)
+
+// KNN
+clf = neighbors.KNeighborsClassifier(5)
+clf.fit(X,y)
+</code>
+</pre>
+
